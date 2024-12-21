@@ -9,6 +9,7 @@ import {
   getEditForm,
   updateArticle,
 } from "../controllers/articlesEditController.js";
+import { deleteArticle } from "../controllers/articlesDeleteController.js";
 
 const mainRouter = express.Router();
 mainRouter.get("/", (req, res) => {
@@ -21,5 +22,6 @@ mainRouter.post("/articles/create", createArticle);
 mainRouter.get("/articles/create", getCreateForm);
 mainRouter.post("/articles/edit", updateArticle);
 mainRouter.get("/articles/edit", getEditForm);
+mainRouter.delete("/articles/delete/:id", deleteArticle);
 
 export default mainRouter;
