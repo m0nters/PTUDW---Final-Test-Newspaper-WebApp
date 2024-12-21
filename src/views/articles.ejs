@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <a href="/" class="text-3xl font-bold text-center">Articles List</a>
+                <a href="/articles/create"
+                    class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                    Create Article
+                </a>
+            </div>
+
+            <!-- ...existing table code... -->
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-8">
+            <div class="overflow-x-auto">
+                <table class="w-full divide-y divide-gray-200">
+                    <thead class="bg-slate-800 text-white">
+                        <tr class="divide-x divide-gray-600">
+                            <th class="px-6 py-3 text-left">#</th>
+                            <th class="px-6 py-3 text-left">Title</th>
+                            <th class="px-6 py-3 text-left">Author</th>
+                            <th class="px-6 py-3 text-left">Abstract</th>
+                            <th class="px-6 py-3 text-center">Category</th>
+                            <th class="px-6 py-3 text-center">Premium</th>
+                            <th class="px-6 py-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-500">
+                        <% articles.forEach((article, index)=> { %>
+                            <tr class="hover:bg-blue-50 divide-x divide-slate-800">
+                                <td class="px-6 py-4">
+                                    <%= article.id %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="max-w-[200px] truncate">
+                                        <%= article.title %>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= article.author %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="max-w-[300px] truncate">
+                                        <%= article.abstract %>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <%= article.category_name %>
+                                </td>
+                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                    <% if (article.is_premium) { %>
+                                        <span
+                                            class="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-2 py-1 rounded-full text-xs">Premium</span>
+                                        <% } else { %>
+                                            <span
+                                                class="bg-gray-600 text-white px-2 py-1 rounded-full text-xs">Standard</span>
+                                            <% } %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a href="/articles/detail?id=<%= article.id %>"
+                                            class="text-blue-600 hover:text-blue-800 font-semibold">
+                                            View
+                                        </a>
+                                        <span class="text-gray-300">|</span>
+                                        <a href="/articles/edit?id=<%= article.id %>"
+                                            class="text-slate-800 hover:text-slate-600 font-semibold">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center items-center gap-2">
+            <% if (hasPrevPage) { %>
+                <a href="/articles?page=<%= currentPage - 1 %>"
+                    class="px-4 py-2 bg-white rounded-lg shadow hover:bg-slate-50 text-slate-800 transition-colors">
+                    Previous
+                </a>
+                <% } %>
+
+                    <div class="flex gap-2">
+                        <% for(let i=1; i <=totalPages; i++) { %>
+                            <a href="/articles?page=<%= i %>"
+                                class="px-4 py-2 rounded-lg <%= currentPage === i ? 'bg-slate-800 text-white' : 'bg-white text-slate-800 hover:bg-slate-50' %> transition-colors">
+                                <%= i %>
+                            </a>
+                            <% } %>
+                    </div>
+
+                    <% if (hasNextPage) { %>
+                        <a href="/articles?page=<%= currentPage + 1 %>"
+                            class="px-4 py-2 bg-white rounded-lg shadow hover:bg-slate-50 text-slate-800 transition-colors">
+                            Next
+                        </a>
+                        <% } %>
+        </div>
+    </div>
+</body>
+
+</html>

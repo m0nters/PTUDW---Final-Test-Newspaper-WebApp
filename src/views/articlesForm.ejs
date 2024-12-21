@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= isEditing ? 'Edit Article' : 'Create Article' %>
+    </title>
+    <link href="/css/output.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/1m9illloryqplxp2k0kam7elr0reyvi04nz7za73lg7h79cx/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#content',
+            plugins: 'lists link image table code help wordcount'
+        });
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-3xl">
+        <form action="<%= isEditing ? `/articles/edit?id=${article.id}` : '/articles/create' %>" method="POST"
+            class="bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-3xl font-bold mb-8 text-center">
+                <%= isEditing ? 'Edit Article' : 'Create New Article' %>
+            </h1>
+
+            <!-- Title -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Title</label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="<%= isEditing ? article.title : '' %>" id="title" name="title" type="text" required>
+            </div>
+
+            <!-- Author -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="author">Author</label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="<%= isEditing ? article.author : '' %>" id="author" name="author" type="text" required>
+            </div>
+
+            <!-- Abstract -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="abstract">Abstract</label>
+                <textarea
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="abstract" name="abstract" rows="3"><%= isEditing ? article.abstract : '' %></textarea>
+            </div>
+
+            <!-- Content -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="content">Content</label>
+                <textarea id="content" name="content"><%= isEditing ? article.content : '' %></textarea>
+            </div>
+
+            <!-- Premium Toggle -->
+            <div class="mb-6">
+                <label class="flex items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="checkbox" id="is_premium" name="is_premium" class="sr-only" value="true"
+                            <%=isEditing && article.is_premium ? 'checked' : '' %>>
+                        <div class="toggle-bg block w-14 h-8 rounded-full transition-colors duration-300 ease-in-out">
+                        </div>
+                        <div
+                            class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300">
+                        </div>
+                    </div>
+                    <div class="ml-3 text-gray-700 font-medium">
+                        <span id="premium-tag"
+                            class="hidden bg-gradient-to-r from-purple-600 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-sm">Premium</span>
+                        <span id="standard-tag"
+                            class="bg-gray-600 text-white px-3 py-1 rounded-full text-xs font-medium">Standard</span>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Image URL -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="img_url">Image URL</label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value="<%= isEditing ? article.img_url : '' %>" id="img_url" name="img_url" type="url">
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">Category</label>
+                <select
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="category_id" name="category_id" required>
+                    <option value="">Select a category</option>
+                    <% categories.forEach(category=> { %>
+                        <option value="<%= category.id %>" <%=isEditing && article.category_id===category.id
+                            ? 'selected' : '' %>>
+                            <%= category.category_name %>
+                        </option>
+                        <% }); %>
+                </select>
+            </div>
+
+            <!-- Submit and Cancel Buttons -->
+            <div class="flex items-center justify-between">
+                <button
+                    class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    <%= isEditing ? 'Update Article' : 'Create Article' %>
+                </button>
+                <a href="/articles" class="text-slate-800 hover:text-slate-600">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const toggle = document.querySelector('#is_premium');
+        const toggleBg = document.querySelector('.toggle-bg');
+        const dot = document.querySelector('.dot');
+        const premiumTag = document.querySelector('#premium-tag');
+        const standardTag = document.querySelector('#standard-tag');
+
+        function updateToggleState() {
+            if (toggle.checked) {
+                toggleBg.classList.remove('bg-gray-600');
+                toggleBg.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-500');
+                dot.classList.add('translate-x-6');
+                premiumTag.classList.remove('hidden');
+                standardTag.classList.add('hidden');
+            } else {
+                toggleBg.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-blue-500');
+                toggleBg.classList.add('bg-gray-600');
+                dot.classList.remove('translate-x-6');
+                premiumTag.classList.add('hidden');
+                standardTag.classList.remove('hidden');
+            }
+        }
+
+        updateToggleState();
+        toggle.addEventListener('change', updateToggleState);
+    </script>
+</body>
+
+</html>
