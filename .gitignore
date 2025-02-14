@@ -1,3 +1,5 @@
 src/public/css/output.css
 .env
 node_modules
+
+package-lock.json
