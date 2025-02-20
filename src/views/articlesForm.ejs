@@ -8,13 +8,15 @@
         <%= isEditing ? 'Edit Article' : 'Create Article' %>
     </title>
     <link href="/css/output.css" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/1m9illloryqplxp2k0kam7elr0reyvi04nz7za73lg7h79cx/tinymce/6/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/1m9illloryqplxp2k0kam7elr0reyvi04nz7za73lg7h79cx/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/node_modules/@codecogs/eqneditor-tinymce6/eqneditor.js"></script>
+
     <script>
-        tinymce.init({
-            selector: '#content',
-            plugins: 'lists link image table code help wordcount'
-        });
+      tinymce.init({
+        selector: '#content',
+          plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat' |	'eqneditor',
+});
     </script>
 </head>
 

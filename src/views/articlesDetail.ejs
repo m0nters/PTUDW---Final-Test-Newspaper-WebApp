@@ -8,7 +8,7 @@
   </head>
 
   <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
       <!-- Title Section -->
       <h1 class="text-4xl font-bold text-gray-900 mb-4">
         <%= article.title %>
@@ -44,27 +44,38 @@
 
       <!-- Image -->
       <% if (article.img_url) { %>
-      <div class="mb-8">
-        <img
-          src="<%= article.img_url %>"
-          alt="<%= article.title %>"
-          class="w-full h-full object-cover rounded-lg shadow-lg"
-        />
-      </div>
+      <img
+        src="<%= article.img_url %>"
+        alt="<%= article.title %>"
+        class="w-full h-full object-cover rounded-lg shadow-lg mb-8"
+      />
       <% } %>
 
       <!-- Content -->
       <div class="bg-white p-8 rounded-lg shadow-md mb-8">
-        <div class="prose max-w-none"><%- article.content %></div>
+        <%- article.content %>
       </div>
 
       <!-- Back Button -->
       <div class="flex text-center justify-start">
         <a
           href="/articles"
-          class="inline-block bg-slate-800 text-white px-6 py-2 rounded-lg hover:bg-slate-700 transition-colors"
+          class="inline-flex items-center bg-slate-800 text-white px-6 py-2 rounded-lg hover:bg-slate-700 transition-colors"
         >
-          ◄ Back to Articles List
+          <svg
+            class="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Articles List
         </a>
       </div>
     </div>

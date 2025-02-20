@@ -19,11 +19,11 @@ mainRouter.get("/", (req, res) => {
 mainRouter.get("/articles", getAllArticles);
 mainRouter.get("/articles/detail", getArticleDetail);
 
-mainRouter.post("/articles/create", createArticle);
 mainRouter.get("/articles/create", getCreateForm);
+mainRouter.post("/articles/create", createArticle);
 
-mainRouter.post("/articles/edit", updateArticle);
 mainRouter.get("/articles/edit", getEditForm);
+mainRouter.post("/articles/edit", updateArticle);
 
 mainRouter.delete("/articles/delete/:id", deleteArticle);
 

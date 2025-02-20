@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
     "build:css": "tailwindcss -o src/public/css/output.css --watch"
   },
   "keywords": [],
@@ -12,7 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@tinymce/tinymce-react": "^5.1.1",
+    "@codecogs/eqneditor-tinymce6": "^1.0.2",
     "autoprefixer": "^10.4.20",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
